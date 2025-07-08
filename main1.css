@@ -1,0 +1,390 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+:root {
+  --bg: #fff;
+  --text: #222;
+  --card-bg: #ffffffee;
+  --navbar-bg: rgba(255, 255, 255, 0.85);
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #eee;
+  --card-bg: rgba(30, 30, 30, 0.9);
+  --navbar-bg: rgba(18, 18, 18, 0.85);
+}
+
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--navbar-bg);
+  padding: 10px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d60000;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #ad2222;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 40px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 300px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.pros {
+  border-left: 8px solid #00b894;
+}
+
+.cons {
+  border-left: 8px solid #d63031;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card li {
+  margin: 10px 0;
+  padding-left: 25px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.pros li::before {
+  content: '👍';
+  position: absolute;
+  left: 0;
+}
+
+.cons li::before {
+  content: '👎';
+  position: absolute;
+  left: 0;
+}
+
+.memes {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--card-bg);
+  margin-top: 40px;
+}
+
+.memes h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.meme-videos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.meme-videos video {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contacts-section {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: var(--text);
+}
+
+.contacts-section h2 {
+  margin-bottom: 20px;
+}
+
+.contacts-section a {
+  color: #d60000;
+  text-decoration: none;
+}
+
+.contacts-section a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  margin-top: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--card-bg);
+  font-size: 14px;
+  color: var(--text);
+}
+
+:target::before {
+  content: "";
+  display: block;
+  height: 60px;
+  margin-top: -60px;
+  visibility: hidden;
+}
+
+@media (max-width: 600px) {
+  .card {
+    width: 90%;
+  }
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 1000;
+}
+
+.chat-header {
+  background: #d60000;
+  color: white;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  background: var(--card-bg);
+  border: 1px solid #ddd;
+  border-top: none;
+  height: 400px;
+  display: none;
+  flex-direction: column;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-container.open .chat-body {
+  display: flex;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  line-height: 1.4;
+  position: relative;
+}
+
+.client-message {
+  background: #e3f2fd;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+.support-message {
+  background: #f1f1f1;
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
+}
+
+body.dark .support-message {
+  background: #333;
+  color: #fff;
+}
+
+body.dark .client-message {
+  background: #0059b3;
+  color: #fff;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+}
+
+body.dark .chat-input input {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.dark .chat-input input::placeholder {
+  color: #aaa;
+}
+
+.chat-input button {
+  background: #d60000;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background: #ad2222;
+}
+
+.notification {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff5252;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+.chat-icon {
+  font-size: 20px;
+}
+
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 24px;
+  background: #d60000;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.chat-container.open ~ #chatToggleBtn {
+  display: none;
+}
+
+.theme-toggle {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  font-size: 20px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}

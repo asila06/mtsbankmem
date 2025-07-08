@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат поддержки</title>
+    <style>
+        /* Стили для чата */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            font-family: 'Arial', sans-serif;
+            z-index: 1000;
+        }
+        
+        .chat-header {
+            background: #4a76a8;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-body {
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            display: none;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+        }
+        
+        .client-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .support-message {
+            background: #f1f1f1;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background: #4a76a8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        .chat-input button:hover {
+            background: #3a6698;
+        }
+        
+        .notification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff5252;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .chat-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header" onclick="toggleChat()">
+            <span>Чат поддержки</span>
+            <span class="chat-icon">💬</span>
+            <div class="notification" id="notification" style="display: none;">1</div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message support-message">
+                    Здравствуйте! Чем могу помочь?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Введите сообщение..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chatOpen = false;
+        let hasNewMessage = false;
+        
+        function toggleChat() {
+            const chatBody = document.getElementById('chatBody');
+            chatOpen = !chatOpen;
+            
+            if (chatOpen) {
+                chatBody.style.display = 'flex';
+                if (hasNewMessage) {
+                    document.getElementById('notification').style.display = 'none';
+                    hasNewMessage = false;
+                }
+            } else {
+                chatBody.style.display = 'none';
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Добавляем сообщение клиента в чат
+                addMessage(message, 'client');
+                
+                // Очищаем поле ввода
+                input.value = '';
+                
+                // Здесь можно отправить сообщение на сервер
+                sendToServer(message);
+                
+                // Имитируем ответ поддержки
+                setTimeout(() => {
+                    const response = getSupportResponse(message);
+                    addMessage(response, 'support', true);
+                }, 1000);
+            }
+        }
+        
+        function addMessage(text, sender, isNotification = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(sender + '-message');
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            
+            // Прокрутка вниз
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Уведомление, если чат закрыт
+            if (sender === 'support' && isNotification && !chatOpen) {
+                document.getElementById('notification').style.display = 'flex';
+                hasNewMessage = true;
+            }
+        }
+        
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        //
